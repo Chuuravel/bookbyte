@@ -14,4 +14,9 @@ def login(request):
 
 
 def signup(request):
-    return render(request, "users/signup.html")
+    # SignupForm인스턴스 생성 후 template에 전달
+    form = SignupForm()
+    context = {
+        "form" : form,
+    }
+    return render(request, "users/signup.html", context)
