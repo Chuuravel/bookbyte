@@ -29,3 +29,7 @@ class Review(models.Model):
 
     def __str__(self):
         return self.title
+
+class Favor(models.Model):
+    user_id = models.ForeignKey(User, on_delete= models.CASCADE) #아이디_User
+    genre = models.CharField(max_length=30, null=False) # 선호하는 장르
