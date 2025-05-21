@@ -46,7 +46,7 @@ class SignupForm(forms.Form):
         ('대학교재/전문서적','대학교재/전문서적'),
     ]
 
-    genre = forms.ChoiceField(
+    genre = forms.MultipleChoiceField(
         label="선호하는 장르(중복선택가능)",
         choices=genre_choices,
         widget=forms.CheckboxSelectMultiple,
