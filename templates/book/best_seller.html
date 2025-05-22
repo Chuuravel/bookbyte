@@ -10,5 +10,8 @@
     <a href="{% url 'users:signup' %}">회원가입</a>
     <a href="{% url 'users:login' %}">로그인</a>
     <h1>베스트셀러</h1>
+    {% for book in all_book %}
+        <img src ="{{ book.cover_image.url }}" alt="표지정보가 없습니다" />
+    {% endfor %}
 </body>
 </html>
