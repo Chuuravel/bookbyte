@@ -5,4 +5,5 @@ app_name = "book"
 urlpatterns = [
     path("", views.best_seller, name="best_seller"),
     path("bestseller/", views.best_seller, name="best_seller"),
+    path("recmdbook/", views.recommended_book, name="recommended_book"),
 ]
