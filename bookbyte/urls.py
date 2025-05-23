@@ -23,9 +23,8 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("book.urls")),
-    
     path("users/", include("users.urls")),
-    path("book/", include("book.urls")),
+    # path("book/", include("book.urls")),
 ]
 
 urlpatterns += static(

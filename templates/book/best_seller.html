@@ -11,7 +11,7 @@
     <a href="{% url 'users:login' %}">로그인</a>
     <h1>베스트셀러</h1>
     {% for book in page_obj %}
-        <img src ="{{ book.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
+        <a href="{% url 'book:detail' pk=book.pk %}"><img src ="{{ book.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/></a>
         책제목
         지은이/출판사
         <br/>

@@ -2,16 +2,35 @@ from django.shortcuts import render, redirect
 from users.forms import LoginForm
 from users.forms import SignupForm
 from django.contrib.auth.models import User
-from book.models import Favor 
+from book.models import Favor
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 # 로그인
-def login(request):
-    context = load_init.login()
-    return render(request, "users/login.html", context)
+def login_view(request):
+    # 기로그인 유저의 경우 추천도서목록으로 이동
+    if request.user.is_authenticated: 
+        return redirect("book:recommended_book")
+    if request.method == "POST": 
+        form = LoginForm(data = request.POST) 
+        if form.is_valid(): 
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)
+            if user: 
+                login(request, user) 
+                return redirect("book:recommended_book")
+            else: 
+                form.add_error(None, "User information incorrect.")
+        context = {"form" : form}
+        return render(request, "users/login.html", context)
+    else: 
+        form = LoginForm() 
+        context = {"form" : form}
+        return render(request, "users/login.html", context)
 
 # 회원가입
-def signup(request):
+def signup_view(request):
     # 폼 입력값이 있는 경우 저장
     if request.method == "POST":
         signup_form = SignupForm(request.POST)
@@ -23,7 +42,6 @@ def signup(request):
             password1 = request.POST.get('password1', None)
             password2 = request.POST.get('password2', None)
             genre =  request.POST.get('genre', None)
-            # print(genre)
             # 비밀번호와 비밀번호확인 일치 여부 확인
             if password1 != password2:
                 return render(request, "users/signup.html")
@@ -50,13 +68,6 @@ def signup(request):
     
 # 초기 로드
 class load_init():
-    def login():
-        form = LoginForm()
-        context = {
-            "form" : form,
-        }
-        return context
-
     def signup():
         form = SignupForm()
         context = {

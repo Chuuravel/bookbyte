@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from book.models import BookInfo
+from django.contrib.auth.models import User
+
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from book.forms import ReviewForm
+from book.models import Review
 
 # Create your views here.
 def best_seller(request):
@@ -23,6 +27,11 @@ def best_seller(request):
 
 # 추천도서목록
 def recommended_book(request):
+    # 요청에 포함된 사용자가 로그인하지 않은 경우
+    if not request.user.is_authenticated:
+        # /users/login/ URL 로 리다이렉트
+        return redirect("users:login")
+    
     # 모델이 학습한 추천도서를 반환 (추후 요수정)
     all_book = BookInfo.objects.all()
 
@@ -39,8 +48,13 @@ def recommended_book(request):
     }
     return render(request, "book/recommended_book.html", context)
 
+# 전체 도서 목록
 def show_all_book(request):
-    # 전체 도서를 반환
+    # 요청에 포함된 사용자가 로그인하지 않은 경우
+    if not request.user.is_authenticated:
+        # /users/login/ URL 로 리다이렉트
+        return redirect("users:login")
+    
     all_book = BookInfo.objects.all()
 
     # 페이징
@@ -55,6 +69,75 @@ def show_all_book(request):
         "custom_range" : custom_range,
     }
     return render(request, "book/show_all_book.html", context)
+
+# 책 상세페이지
+def detail(request, pk):
+    # 요청에 포함된 사용자가 로그인하지 않은 경우
+    if not request.user.is_authenticated:
+        # /users/login/ URL 로 리다이렉트
+        return redirect("users:login")
+    
+    book = get_object_or_404(BookInfo, id = pk)
+    
+    context = {
+        "book" : book,
+    }
+    return render(request, "book/detail_book.html", context)
+
+# 리뷰 작성
+def create_review(request, pk):
+    # 요청에 포함된 사용자가 로그인하지 않은 경우
+    if not request.user.is_authenticated:
+        # /users/login/ URL 로 리다이렉트
+        return redirect("users:login")
+    
+    # 폼 입력값이 있는 경우 저장
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            title = request.POST.get('title', None)
+            content = request.POST.get('content', None)
+            grade = request.POST.get('grade', None)
+
+            # 유저 정보
+            # 로그인한 유저            
+            user = get_object_or_404(User, id = 7)
+
+            # 책 정보
+            book = get_object_or_404(BookInfo, id = pk)
+
+            # 리뷰 정보 저장
+            review = Review()
+            review.user_id = user
+            review.book_id = book
+            review.title = title
+            review.content = content
+            review.grade = grade
+            review.is_bookbyte = True
+            review.save()
+
+            # 마이리뷰조회로 이동
+            return redirect("book:show_review")
+        else:
+            context = load_init.review()
+            return render(request, "book/create_review.html", context)
+
+    else:
+        context = load_init.review()
+        return render(request, "book/create_review.html", context)
+    
+def show_review(request):
+    return render(request, "book/show_review.html")
+
+
+# 초기 로드
+class load_init():
+    def review():
+        form = ReviewForm()
+        context = {
+            "form" : form,
+        }
+        return context
 
 class paging_page():
     def by_pagination(book_info, page):

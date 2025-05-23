@@ -26,7 +26,7 @@ class Review(models.Model):
     title = models.CharField(max_length=100, null=True) #제목
     content = models.TextField(null=False) #내용
     grade = models.FloatField(null=True) #평점
-    is_bookbyte = models.BooleanField(default=True, null=False) #bookbyte에서 생성여부
+    is_bookbyte = models.BooleanField(default=False, null=False) #bookbyte에서 생성여부
 
     def __str__(self):
         return self.title
