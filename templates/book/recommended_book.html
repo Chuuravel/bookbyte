@@ -7,11 +7,13 @@
 </head>
 <body>
     <h1>추천도서목록</h1>
-    {% for book in all_book %}
+    {% for book in page_obj %}
         <img src ="{{ book.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
         책제목
         지은이/출판사
         <br/>
     {% endfor %}
+    <!-- 페이징 -->
+    {% include 'book/_paging.html' %}
 </body>
 </html>

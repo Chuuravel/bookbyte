@@ -6,8 +6,17 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 def best_seller(request):
     # 모델이 학습한 베스트셀러를 반환 (추후 요수정) - 10개만 표시
     all_book = BookInfo.objects.all()
+
+    # 페이징
+    page = request.GET.get('page')
+    page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
+
     context = {
         "all_book" : all_book,
+        # for paging
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        "custom_range" : custom_range,
     }
 
     return render(request, "book/best_seller.html", context)
@@ -16,21 +25,31 @@ def best_seller(request):
 def recommended_book(request):
     # 모델이 학습한 추천도서를 반환 (추후 요수정)
     all_book = BookInfo.objects.all()
+
+    # 페이징
+    page = request.GET.get('page')
+    page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
+
     context = {
         "all_book" : all_book,
+        # for paging
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        "custom_range" : custom_range,
     }
     return render(request, "book/recommended_book.html", context)
 
 def show_all_book(request):
     # 전체 도서를 반환
     all_book = BookInfo.objects.all()
-    page = request.GET.get('page')
 
     # 페이징
+    page = request.GET.get('page')
     page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
 
     context = {
         "all_book" : all_book,
+        # for paging
         "page_obj" : page_obj,
         "paginator" : paginator,
         "custom_range" : custom_range,
