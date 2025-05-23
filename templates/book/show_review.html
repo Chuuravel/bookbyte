@@ -7,5 +7,11 @@
 </head>
 <body>
     <h1>리뷰조회</h1>
+    {% for review in reviews %}
+        <img src ="{{ review.book_id.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
+        {{ review.title }}
+        {{ review.content }}
+        {{ review.grade }}
+    {% endfor %}
 </body>
 </html>

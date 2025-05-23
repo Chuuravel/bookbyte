@@ -27,10 +27,8 @@ def best_seller(request):
 
 # 추천도서목록
 def recommended_book(request):
-    # 요청에 포함된 사용자가 로그인하지 않은 경우
-    if not request.user.is_authenticated:
-        # /users/login/ URL 로 리다이렉트
-        return redirect("users:login")
+    # 로그인 여부 판단
+    load_init.determ_login_status(request)
     
     # 모델이 학습한 추천도서를 반환 (추후 요수정)
     all_book = BookInfo.objects.all()
@@ -50,10 +48,8 @@ def recommended_book(request):
 
 # 전체 도서 목록
 def show_all_book(request):
-    # 요청에 포함된 사용자가 로그인하지 않은 경우
-    if not request.user.is_authenticated:
-        # /users/login/ URL 로 리다이렉트
-        return redirect("users:login")
+    # 로그인 여부 판단
+    load_init.determ_login_status(request)
     
     all_book = BookInfo.objects.all()
 
@@ -72,10 +68,8 @@ def show_all_book(request):
 
 # 책 상세페이지
 def detail(request, pk):
-    # 요청에 포함된 사용자가 로그인하지 않은 경우
-    if not request.user.is_authenticated:
-        # /users/login/ URL 로 리다이렉트
-        return redirect("users:login")
+    # 로그인 여부 판단
+    load_init.determ_login_status(request)
     
     book = get_object_or_404(BookInfo, id = pk)
     
@@ -86,10 +80,8 @@ def detail(request, pk):
 
 # 리뷰 작성
 def create_review(request, pk):
-    # 요청에 포함된 사용자가 로그인하지 않은 경우
-    if not request.user.is_authenticated:
-        # /users/login/ URL 로 리다이렉트
-        return redirect("users:login")
+    # 로그인 여부 판단
+    load_init.determ_login_status(request)
     
     # 폼 입력값이 있는 경우 저장
     if request.method == "POST":
@@ -101,7 +93,7 @@ def create_review(request, pk):
 
             # 유저 정보
             # 로그인한 유저            
-            user = get_object_or_404(User, id = 7)
+            user = get_object_or_404(User, id = request.user.id)
 
             # 책 정보
             book = get_object_or_404(BookInfo, id = pk)
@@ -127,11 +119,25 @@ def create_review(request, pk):
         return render(request, "book/create_review.html", context)
     
 def show_review(request):
-    return render(request, "book/show_review.html")
+    # 로그인 여부 판단
+    load_init.determ_login_status(request)
+
+    # 마이리뷰조회
+    reviews = Review.objects.filter(user_id = request.user.id)
+    context = {
+        "reviews" : reviews,
+    }
+    return render(request, "book/show_review.html", context)
 
 
 # 초기 로드
 class load_init():
+    # 요청에 포함된 사용자가 로그인하지 않은 경우 /users/login/ URL 로 리다이렉트
+    def determ_login_status(request):
+        if not request.user.is_authenticated:
+            return redirect("users:login")
+    
+    # 초기화면(빈form)로드
     def review():
         form = ReviewForm()
         context = {
