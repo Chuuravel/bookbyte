@@ -24,29 +24,10 @@ def recommended_book(request):
 def show_all_book(request):
     # 전체 도서를 반환
     all_book = BookInfo.objects.all()
+    page = request.GET.get('page')
 
     # 페이징
-    page = request.GET.get('page')
-    paginator = Paginator(all_book, 10) # 한 페이지에 10레코드씩 표시
-    try:
-        page_obj = paginator.page(page)
-    except PageNotAnInteger:
-        page = 1 # 페이지 정보가 없는 경우 첫 페이지를 표시
-        page_obj = paginator.page(page)
-    except EmptyPage:
-        page = paginator.num_pages # 마지막 페이지를 접속
-        page_obj = paginator.page(page)
-
-    # 현재 페이지를 기준으로 총 5개의 페이지만 표시
-    left_index = (int(page) - 2)
-    if left_index < 1:
-        left_index = 1 # 최솟값은 1로 설정
-
-    right_index = (int(page) + 2)
-    if right_index > paginator.num_pages:
-        right_index = paginator.num_pages # 최댓값은 최대페이지수로 설정
-
-    custom_range = range(left_index, right_index+1) # 마지막 숫자도 포함(+1)
+    page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
 
     context = {
         "all_book" : all_book,
@@ -55,3 +36,30 @@ def show_all_book(request):
         "custom_range" : custom_range,
     }
     return render(request, "book/show_all_book.html", context)
+
+class paging_page():
+    def by_pagination(book_info, page):
+        # 페이징
+        paginator = Paginator(book_info, 10) # 한 페이지에 10레코드씩 표시
+        try:
+            page_obj = paginator.page(page)
+        except PageNotAnInteger:
+            page = 1 # 페이지 정보가 없는 경우 첫 페이지를 표시
+            page_obj = paginator.page(page)
+        except EmptyPage:
+            page = paginator.num_pages # 마지막 페이지를 접속
+            page_obj = paginator.page(page)
+
+        # 현재 페이지를 기준으로 총 5개의 페이지만 표시
+        left_index = (int(page) - 2)
+        if left_index < 1:
+            left_index = 1 # 최솟값은 1로 설정
+
+        right_index = (int(page) + 2)
+        if right_index > paginator.num_pages:
+            right_index = paginator.num_pages # 최댓값은 최대페이지수로 설정
+
+        custom_range = range(left_index, right_index+1) # 마지막 숫자도 포함(+1)
+
+        return page_obj, paginator, custom_range
+
