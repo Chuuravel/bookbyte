@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>리뷰조회</title>
-</head>
-<body>
+{% extends "_base.html" %}
+{% block body-content %}
     <h1>리뷰조회</h1>
     {% for review in reviews %}
         <img src ="{{ review.book_id.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
@@ -13,5 +7,4 @@
         {{ review.content }}
         {{ review.grade }}
     {% endfor %}
-</body>
-</html>
+{% endblock %}

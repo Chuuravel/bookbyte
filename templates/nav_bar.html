@@ -1,0 +1,14 @@
+{% load static %}
+<header id="header">
+    <div class="head-inner">
+        <h1 class="logo">
+            <a href="{% url 'book:best_seller' %}"><img src ="{% static 'logo/logo_bookbyte.png' %}" alt="bookbyte" width="15%"/></a>
+        </h1>
+    </div>
+    <nav class="nav">
+        <ul>
+            <li><a href="{% url 'users:signup' %}">회원가입</a></li>
+            <a href="{% url 'users:login' %}">로그인</a>
+        </ul>
+    </nav>    
+</header>

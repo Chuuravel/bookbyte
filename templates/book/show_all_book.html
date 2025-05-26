@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전체 도서목록</title>
-</head>
-<body>
+{% extends "_base.html" %}
+{% block body-content %}
     <h1>전체 도서목록</h1>
     {% for book in page_obj %}
     <a href="{% url 'book:detail' pk=book.pk %}"><img src ="{{ book.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/></a>
@@ -16,5 +10,4 @@
     {% endfor %}
     <!-- 페이징 -->
     {% include 'book/_paging.html' %}
-</body>
-</html>
+{% endblock %}
