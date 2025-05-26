@@ -1,0 +1,60 @@
+/*  common  ccc*/
+/* tr, td, body {	font-family:'Apple SD Gothic Neo',Malgun Gothic,"굴림";font-size: 9pt;	color: #444444;	line-height: 19px;} */
+
+a {
+	text-decoration-line: none;
+}
+
+.header {
+	margin-top: 1%;
+	margin-bottom: 1%;
+	margin-left: 15%;
+	margin-right: 15%;
+}
+
+.logo_icon {
+	display: inline-block /* 같은 라인에 배치 end */
+}
+
+#logo_img {
+	width: 25% 
+}
+
+nav {
+	display: inline-block; /* 같은 라인에 배치 end */
+	float: right; /* 우측정렬 */
+}
+
+li {
+	display: inline-block /* 같은 라인에 배치 end */
+}
+
+.headertop a{
+	color: gray;
+	font-size: 17px;
+}
+
+.headerbottom a{
+	color: white;
+	font-size: 23px;
+}
+
+.headerbottom {
+	list-style: none;
+	display: flex;
+	margin: 0;
+	padding-left: 15%;
+}
+  
+.headerbottom li {
+	padding: 8px 30px;
+	background-color: #00468B;
+	
+	margin-top: 1px;
+	margin-bottom: 1px;
+	margin-left: 5px;
+	margin-right: 5px;
+
+	/* 모서리를 둥글게 */
+	border-radius: 20%;
+}
