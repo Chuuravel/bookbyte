@@ -1,10 +1,14 @@
-/*  common  ccc*/
+/* common start */
 /* tr, td, body {	font-family:'Apple SD Gothic Neo',Malgun Gothic,"굴림";font-size: 9pt;	color: #444444;	line-height: 19px;} */
 
 a {
 	text-decoration-line: none;
 }
 
+/* common end */
+
+
+/* book start */
 /* 간격 조정 */
 .header {
 	margin-top: 1%;
@@ -17,7 +21,7 @@ a {
 	display: inline-block /* 같은 라인에 배치 end */
 }
 
-#logo_img {
+.logo_img {
 	width: 25% 
 }
 
@@ -59,3 +63,58 @@ li {
 	/* 모서리를 둥글게 */
 	border-radius: 20%;
 }
+
+/* book end */
+
+/* user start */
+.user_toparea{
+	margin:6% auto;
+	width:300px; 
+	height:100px; 
+	/* background-color: rgb(255,153,0); */
+	
+	/* margin-top: 2%;
+	margin-bottom: 5%;
+	margin-left: 15%;
+	margin-right: 15%; */
+	/* text-align: center; */
+}
+
+.h1_login{
+	text-align: center;
+}
+.btn_logins {
+	text-align: center;
+}
+
+.btn_login {
+	display :inline-block;
+}
+
+.btn_cancel {
+	display :inline-block;
+}
+
+.logo_img_user {
+	width: 50%; 
+}
+
+.section-logo{
+	text-align: center;
+}
+
+.section-title{
+	text-align: left;
+}
+
+.user_formarea{
+	margin:0 auto;
+	width:300px; 
+	height:100px;
+	background-color: skyblue;
+}
+
+
+
+
+/* user end */

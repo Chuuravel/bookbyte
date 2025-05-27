@@ -1,23 +1,20 @@
 {% extends "_base_user.html" %}
+{% load bootstrap4 %}
+
 {% block head-content %}
 
 {% endblock %}
 {% block body-content %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
-</head>
-<body>
-    <h1>로그인</h1>
+<div class="user_toparea">
+<h1 class="h1_login">로그인</h1>
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">로그인</button>
-        <button type="reset">취소</button>
+        {% bootstrap_form form %}
+        <br/>
+        <div class="btn_logins">
+            <button class="btn_login" type="submit">로그인</button>
+            <button class="btn_cancel" type="reset">취소</button>
+        </div>
     </form>
-</body>
-</html>
+</div>
 {% endblock %}

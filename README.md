@@ -1,7 +1,9 @@
 # bookbyte
 
-python version: 3.12.3
+【python version】
+3.12.3
 
-install lists:
+【installed lists】
 pip install django
 pip install pillow
+pip install django-bootstrap4
