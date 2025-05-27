@@ -13,6 +13,7 @@
                         <li><a href="{% url 'users:signup' %}">회원가입</a></li>
                         <li><a href="{% url 'users:login' %}">로그인</a></li>
                     {% else %}
+                        <b>{{ user.username }}</b>님
                         <li><a href="{% url 'users:logout' %}">로그아웃</a></li>
                     {% endif %}
                 </ul>

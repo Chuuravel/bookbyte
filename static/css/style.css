@@ -68,7 +68,7 @@ li {
 
 /* user start */
 .user_toparea{
-	margin:6% auto;
+	margin:3% auto;
 	width:300px; 
 	height:100px; 
 	/* background-color: rgb(255,153,0); */
@@ -80,18 +80,31 @@ li {
 	/* text-align: center; */
 }
 
-.h1_login{
+.user_onearea{
+	margin:10% auto;
+	width:300px; 
+	height:100px; 
+}
+
+/* 리뷰작성페이지 */
+.review_onearea{
+	margin:5% auto;
+	width:700px; 
+	height:150px; 
+}
+
+.h1_title{
 	text-align: center;
 }
-.btn_logins {
+.btn_sets {
 	text-align: center;
 }
 
-.btn_login {
+#btn_login {
 	display :inline-block;
 }
 
-.btn_cancel {
+#btn_cancel {
 	display :inline-block;
 }
 
@@ -111,7 +124,6 @@ li {
 	margin:0 auto;
 	width:300px; 
 	height:100px;
-	background-color: skyblue;
 }
 
 

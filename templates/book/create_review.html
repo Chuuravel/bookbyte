@@ -1,13 +1,19 @@
 {% extends "_base_book.html" %}
+{% load bootstrap4 %}
+
 {% block head-content %}
 
 {% endblock %}
 {% block body-content %}
-    <h1>리뷰 작성</h1>
+<div class="review_onearea">
+    <h1 class="h1_title">리뷰 작성</h1>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">작성</button>
-        <button type="reset">취소</button>
+        {% bootstrap_form form %}
+        <div class="btn_sets">
+            <button class="btn btn-outline-secondary" type="submit">작성</button>
+            <button class="btn btn-outline-secondary" type="reset">취소</button>
+        </div>
     </form>
+</div>
 {% endblock %}

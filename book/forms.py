@@ -17,6 +17,5 @@ class ReviewForm(forms.Form):
         label="평점",
         choices=grade_choices,
         widget=forms.RadioSelect,
-        required=False,
+        required=False, 
     )
-    

@@ -1,5 +1,6 @@
 {% extends "_base_user.html" %}
 {% load static %}
+{% load bootstrap4 %}
 
 {% block head-content %}
 
@@ -9,14 +10,18 @@
     <div class="section-logo">
         <a href="{% url 'book:best_seller' %}"><img class="logo_img_user" src ="{% static 'logo/logo_bookbyte.png' %}" alt="bookbyte"/></a>
     </div>
-    <div class="section-title"><b>회원정보를 입력해 주세요</b></div>
+    
 </div>
 <div class="user_formarea">
+    <div class="section-title"><b>회원정보를 입력해 주세요</b></div>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">회원가입</button>
-        <button class="btn_cancel" type="button" onclick="location.href='{% url 'book:best_seller' %}'">취소</button>
+        {% bootstrap_form form %}
+        <br/>
+        <div class="btn_sets">
+            <button class="btn btn-outline-secondary" type="submit">회원가입</button>
+            <button id="btn_cancel" class="btn btn-outline-secondary" type="button" onclick="location.href='{% url 'book:best_seller' %}'">취소</button>
+        </div>
     </form>
 </div>
 

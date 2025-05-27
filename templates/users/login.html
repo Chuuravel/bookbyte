@@ -5,15 +5,15 @@
 
 {% endblock %}
 {% block body-content %}
-<div class="user_toparea">
-<h1 class="h1_login">로그인</h1>
+<div class="user_onearea">
+<h1 class="h1_title">로그인</h1>
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
         <br/>
-        <div class="btn_logins">
-            <button class="btn_login" type="submit">로그인</button>
-            <button class="btn_cancel" type="button" onclick="location.href='{% url 'book:best_seller' %}'">취소</button>
+        <div class="btn_sets">
+            <button id="btn_login" class="btn btn-outline-secondary" type="submit">로그인</button>
+            <button id="btn_cancel" class="btn btn-outline-secondary" type="button" onclick="location.href='{% url 'book:best_seller' %}'">취소</button>
         </div>
     </form>
 </div>
