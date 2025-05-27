@@ -9,8 +9,12 @@
             <nav>
                 <ul>
                     <!-- <li>취향에 더 가까운 책 추천받기 -></li> -->
-                    <li><a href="{% url 'users:signup' %}">회원가입</a></li>
-                    <li><a href="{% url 'users:login' %}">로그인</a></li>
+                    {% if not user.is_authenticated %}
+                        <li><a href="{% url 'users:signup' %}">회원가입</a></li>
+                        <li><a href="{% url 'users:login' %}">로그인</a></li>
+                    {% else %}
+                        <li><a href="{% url 'users:logout' %}">로그아웃</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

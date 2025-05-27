@@ -65,7 +65,12 @@ def signup_view(request):
     else:
         context = load_init.signup()
         return render(request, "users/signup.html", context)
-    
+
+# 로그아웃
+def logout_view(request):
+    logout(request) 
+    return redirect("users:login")
+
 # 초기 로드
 class load_init():
     def signup():
