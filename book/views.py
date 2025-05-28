@@ -27,8 +27,9 @@ def best_seller(request):
 
 # 추천도서목록
 def recommended_book(request):
-    # 로그인 여부 판단
-    load_init.determ_login_status(request)
+    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
+    if not request.user.is_authenticated:
+        return redirect("users:login")
     
     # 모델이 학습한 추천도서를 반환 (추후 요수정)
     all_book = BookInfo.objects.all()
@@ -48,8 +49,9 @@ def recommended_book(request):
 
 # 전체 도서 목록
 def show_all_book(request):
-    # 로그인 여부 판단
-    load_init.determ_login_status(request)
+    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
+    if not request.user.is_authenticated:
+        return redirect("users:login")
     
     all_book = BookInfo.objects.all()
 
@@ -68,8 +70,9 @@ def show_all_book(request):
 
 # 책 상세페이지
 def detail(request, pk):
-    # 로그인 여부 판단
-    load_init.determ_login_status(request)
+    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
+    if not request.user.is_authenticated:
+        return redirect("users:login")
     
     book = get_object_or_404(BookInfo, id = pk)
     
@@ -80,8 +83,9 @@ def detail(request, pk):
 
 # 리뷰 작성
 def create_review(request, pk):
-    # 로그인 여부 판단
-    load_init.determ_login_status(request)
+    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
+    if not request.user.is_authenticated:
+        return redirect("users:login")
     
     # 폼 입력값이 있는 경우 저장
     if request.method == "POST":
@@ -119,8 +123,9 @@ def create_review(request, pk):
         return render(request, "book/create_review.html", context)
     
 def show_review(request):
-    # 로그인 여부 판단
-    load_init.determ_login_status(request)
+    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
+    if not request.user.is_authenticated:
+        return redirect("users:login")
 
     # 마이리뷰조회
     reviews = Review.objects.filter(user_id = request.user.id)
@@ -132,11 +137,6 @@ def show_review(request):
 
 # 초기 로드
 class load_init():
-    # 요청에 포함된 사용자가 로그인하지 않은 경우 /users/login/ URL 로 리다이렉트
-    def determ_login_status(request):
-        if not request.user.is_authenticated:
-            return redirect("users:login")
-    
     # 초기화면(빈form)로드
     def review():
         form = ReviewForm()
