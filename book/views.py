@@ -5,10 +5,19 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from book.forms import ReviewForm
 from book.models import Review
+import pandas as pd
+import joblib
+import random
 
 # Create your views here.
 def best_seller(request):
     # 모델이 학습한 베스트셀러를 반환 (추후 요수정) - 10개만 표시
+    # 모델 테스트 start
+    book_predicted = load_model.book_predict(123)
+    print(book_predicted)
+    print("★★★")
+    # 모델 테스트 end
+
     all_book = BookInfo.objects.all()
 
     # 페이징
@@ -134,6 +143,23 @@ def show_review(request):
     }
     return render(request, "book/show_review.html", context)
 
+# 예측모델
+class load_model():
+    def book_predict(test_user):
+        df = pd.read_csv("./models_dl/movies.csv")
+        algo = joblib.load('./models_dl/movie_algo.pkl')
+        user_rated_books = df[df['user'] == test_user]['item'].tolist() # 유저가 읽은 책
+        all_books = df['item'].unique()
+        user_unrated_books = [item for item in all_books if item not in user_rated_books] # 유저가 평가 하지 않은 책
+
+        predict = [ (item, algo.predict(test_user, item).est) for item in user_unrated_books ]
+        predict.sort(key=lambda x: x[1], reverse=True)
+
+        top_n = predict[:20]
+
+        top_random_rec = random.sample(top_n, 5)
+        
+        return top_random_rec
 
 # 초기 로드
 class load_init():
