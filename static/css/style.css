@@ -1,15 +1,7 @@
-/* common start */
-/* tr, td, body {	font-family:'Apple SD Gothic Neo',Malgun Gothic,"굴림";font-size: 9pt;	color: #444444;	line-height: 19px;} */
-
-a {
-	text-decoration-line: none;
-}
-
-/* common end */
-
+/* 폰트적용 */
 
 /* book start */
-/* 간격 조정 */
+/* 헤더 간격 조정 */
 .header {
 	margin-top: 1%;
 	margin-bottom: 1%;
@@ -17,52 +9,59 @@ a {
 	margin-right: 15%;
 }
 
-.logo_icon {
-	display: inline-block /* 같은 라인에 배치 end */
+.headertop{ 
+	display: inline-block; /* 같은 라인에 배치 */
+	margin-right: 5%;
 }
 
-.logo_img {
-	width: 25% 
+.headermiddle{ 
+	display: inline-block; /* 같은 라인에 배치 */
 }
 
-nav {
-	display: inline-block; /* 같은 라인에 배치 end */
-	float: right; /* 우측정렬 */
+.headermiddle li {
+	margin: 0px 25px;
 }
 
-li {
-	display: inline-block /* 같은 라인에 배치 end */
+.headermiddle a {
+	text-decoration-line: none; /* 링크 밑줄 없앰 */
+	color: #00468B;
 }
 
-.headertop a{
-	color: gray;
+.headerbottom{ 
+	display: inline-block; /* 같은 라인에 배치 */
+	float: right;
+}
+
+.headerbottom a {
+	text-decoration-line: none; /* 링크 밑줄 없앰 */
+	color: gray; /* 회색 */
 	font-size: 17px;
 }
 
-.headerbottom a{
-	color: white;
-	font-size: 23px;
+/* 로고 이미지 크기 */
+.logo_img {
+	height: 45px;
 }
 
-.headerbottom {
-	list-style: none;
-	display: flex;
-	margin: 0;
-	padding-left: 15%;
-}
-  
-.headerbottom li {
-	padding: 8px 30px;
+li {
+	display: inline-block /* 같은 라인에 배치 */
+} 
+
+.content-header {
 	background-color: #00468B;
-	
-	margin-top: 1px;
-	margin-bottom: 1px;
-	margin-left: 5px;
-	margin-right: 5px;
-
-	/* 모서리를 둥글게 */
-	border-radius: 20%;
+	padding: 25px 20px;
 }
+
+.content-header-text {
+	color: white;
+	font-size: 15px;
+}
+
+.content-content {
+	padding: 25px 0px;
+}
+
+
 
 /* book end */
 
@@ -125,8 +124,6 @@ li {
 	width:300px; 
 	height:100px;
 }
-
-
 
 
 /* user end */

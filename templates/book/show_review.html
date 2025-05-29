@@ -3,11 +3,15 @@
 
 {% endblock %}
 {% block body-content %}
-    <h1>리뷰조회</h1>
-    {% for review in reviews %}
-        <img src ="{{ review.book_id.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
-        {{ review.title }}
-        {{ review.content }}
-        {{ review.grade }}
-    {% endfor %}
+    <div class="content-header">
+        <div class="content-header-text">리뷰 조회</div>
+    </div>
+    <div class="content-content">
+        {% for review in reviews %}
+            <img src ="{{ review.book_id.cover_image.url }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
+            {{ review.title }}
+            {{ review.content }}
+            {{ review.grade }}
+        {% endfor %}
+    </div>
 {% endblock %}
