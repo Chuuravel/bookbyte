@@ -27,6 +27,17 @@
 	color: #00468B;
 }
 
+/* 마우스오버 설정 */
+.headermiddle li:hover {
+	background-color: #00468B;
+  	border-radius: 3px;
+}
+
+/* 마우스오버 설정 */
+.headermiddle a:hover {
+	color: white;
+}
+
 .headerbottom{ 
 	display: inline-block; /* 같은 라인에 배치 */
 	float: right;
