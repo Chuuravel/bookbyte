@@ -17,7 +17,7 @@ class BookInfo(models.Model):
     book_explanation = models.TextField(null=True) #책소개
 
     def __str__(self):
-        return self.title
+        return self.isbn
 
 
 class Review(models.Model):
