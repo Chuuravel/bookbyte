@@ -9,7 +9,6 @@ import pandas as pd
 import joblib
 import random
 import requests
-from bs4 import BeautifulSoup
 
 # Create your views here.
 def best_seller(request):
@@ -65,9 +64,7 @@ def show_all_book(request):
         return redirect("users:login")
     
     all_book = BookInfo.objects.all()
-    print(all_book)
-    # print(all_book[0])
-
+    
     # 네이버API검색 start
     client_id = "TuZ3bn4h5AnDRFjsVLld"
     client_secret = "dAGLpBRCh8"
@@ -84,7 +81,7 @@ def show_all_book(request):
         if(len(data['items']) > 0):
             title = data['items'][0]['title'] # 책제목
             link = data['items'][0]['link'] # 링크
-            cover_image_api = data['items'][0]['image'] # 책표지
+            cover_image = data['items'][0]['image'] # 책표지
             author = data['items'][0]['author'] # 저자
             discount = data['items'][0]['discount']
             publisher = data['items'][0]['publisher'] # 출판사
@@ -95,7 +92,7 @@ def show_all_book(request):
         book_api = BookInfo()
         book_api.title = title
         book_api.isbn = isbn
-        book_api.cover_image = cover_image_api
+        book_api.cover_image = cover_image
         book_api.publisher = publisher
         all_book_api.append(book_api)
     # 네이버API검색 end
