@@ -67,6 +67,7 @@ def show_all_book(request):
     all_book = BookInfo.objects.all()
     print(all_book)
     # print(all_book[0])
+
     # 네이버API검색 start
     client_id = "TuZ3bn4h5AnDRFjsVLld"
     client_secret = "dAGLpBRCh8"
@@ -74,41 +75,37 @@ def show_all_book(request):
     
     all_book_api = []
 
-    # for one_book in all_book:
-    #     params = {"query": one_book}
-    #     headers = {"X-Naver-Client-Id":client_id,"X-Naver-Client-Secret": client_secret}
-    #     res = requests.get(url, params = params, headers = headers)
-    #     print(res)
-    #     data = res.json()
-    #     title = data['items'][0]['title'] # 책제목
-    #     print(title)
-    #     print("◆")
+    for one_book in all_book:
+        params = {"query": one_book}
+        headers = {"X-Naver-Client-Id":client_id,"X-Naver-Client-Secret": client_secret}
+        res = requests.get(url, params = params, headers = headers)
+        print(res)
+        data = res.json()
+        if(len(data['items']) > 0):
+            title = data['items'][0]['title'] # 책제목
+            link = data['items'][0]['link'] # 링크
+            cover_image_api = data['items'][0]['image'] # 책표지
+            author = data['items'][0]['author'] # 저자
+            discount = data['items'][0]['discount']
+            publisher = data['items'][0]['publisher'] # 출판사
+            pubdate = data['items'][0]['pubdate']
+            isbn = data['items'][0]['isbn'] # 국제 표준 도서 번호(isbn)
+            description = data['items'][0]['description'] # 책 설명
 
-    #     link = data['items'][0]['link'] # 링크
-    #     cover_image_api = data['items'][0]['image'] # 책표지
-    #     author = data['items'][0]['author'] # 저자
-    #     discount = data['items'][0]['discount']
-    #     publisher = data['items'][0]['publisher'] # 출판사
-    #     pubdate = data['items'][0]['pubdate']
-    #     isbn = data['items'][0]['isbn'] # 국제 표준 도서 번호(isbn)
-    #     description = data['items'][0]['description'] # 책 설명
-
-        
-    #     book_api = BookInfo()
-    #     book_api.title = title
-    #     book_api.isbn = isbn
-    #     book_api.cover_image = cover_image_api
-    #     book_api.publisher = publisher
-    #     all_book_api.append(book_api)
-    
+        book_api = BookInfo()
+        book_api.title = title
+        book_api.isbn = isbn
+        book_api.cover_image = cover_image_api
+        book_api.publisher = publisher
+        all_book_api.append(book_api)
     # 네이버API검색 end
 
     # 페이징
     page = request.GET.get('page')
-    page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
+    page_obj, paginator, custom_range = paging_page.by_pagination(all_book_api, page)
 
     context = {
-        "all_book" : all_book,
+        "all_book" : all_book_api,
         # for paging
         "page_obj" : page_obj,
         "paginator" : paginator,

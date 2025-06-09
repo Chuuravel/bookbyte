@@ -9,13 +9,13 @@
     <div class="content-content">
         {% for book in page_obj %}
             {% if book.cover_image %}
-                <a href="{% url 'book:detail' pk=book.pk %}"><img src ="{{ book.cover_image }}" alt="표지정보가 없습니다" width="195px" height="345px"/></a>
+                <a href="{% url 'book:detail' isbn=book.isbn %}"><img src ="{{ book.cover_image }}" alt="표지정보가 없습니다" width="195px" height="345px"/></a>
             {% else %}
                 <img src="https://picsum.photos/seed/picsum/195/345" alt="기본 이미지">
             {% endif %}
             책제목
             지은이/출판사
-            <a href="{% url 'book:create_review' pk=book.pk %}">리뷰작성</a>
+            <a href="{% url 'book:create_review' isbn=book.isbn %}">리뷰작성</a>
             <br/>
         {% endfor %}
         <!-- 페이징 -->
