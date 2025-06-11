@@ -8,7 +8,7 @@
     </div>
     <div class="content-content">
         {% for review in reviews %}
-            {% if book.cover_image %}
+            {% if review.book_id.cover_image %}
                 <img src ="{{ review.book_id.cover_image }}" alt="표지정보가 없습니다" width="195px" height="345px"/>
             {% else %}
                 <img src="https://picsum.photos/seed/picsum/195/345" alt="기본 이미지">
