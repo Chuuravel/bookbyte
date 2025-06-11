@@ -11,7 +11,30 @@ import pickle
 
 # Create your views here.
 def best_seller(request):
-    # 모델이 학습한 베스트셀러를 반환 (추후 요수정) - 10개만 표시
+    # 베스트셀러
+    all_book = BookInfo.objects.all()
+
+    # 페이징
+    page = request.GET.get('page')
+    page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
+
+    context = {
+        "all_book" : all_book,
+        # for paging
+        "page_obj" : page_obj,
+        "paginator" : paginator,
+        "custom_range" : custom_range,
+    }
+
+    return render(request, "book/best_seller.html", context)
+
+# 추천도서목록
+def recommended_book(request):
+    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
+    if not request.user.is_authenticated:
+        return redirect("users:login")
+    
+    # 모델이 학습한 추천도서를 반환
     # 모델 테스트 start
     df = pd.read_csv('./models_dl/book_data_250610.csv')
     user_stats = df.groupby('user_id')['rating'].agg(['mean', 'std'])
@@ -54,29 +77,6 @@ def best_seller(request):
     # isbn으로 DB에서 책 조회
     all_book = BookInfo.objects.filter(isbn__in = recommended_isbns)
     print(all_book)
-
-    # 페이징
-    page = request.GET.get('page')
-    page_obj, paginator, custom_range = paging_page.by_pagination(all_book, page)
-
-    context = {
-        "all_book" : all_book,
-        # for paging
-        "page_obj" : page_obj,
-        "paginator" : paginator,
-        "custom_range" : custom_range,
-    }
-
-    return render(request, "book/best_seller.html", context)
-
-# 추천도서목록
-def recommended_book(request):
-    # 요청에 포함된 사용자가 로그인하지 않은 경우/users/login/ URL 로 리다이렉트
-    if not request.user.is_authenticated:
-        return redirect("users:login")
-    
-    # 모델이 학습한 추천도서를 반환 (추후 요수정)
-    all_book = BookInfo.objects.all()
 
     # 페이징
     page = request.GET.get('page')
