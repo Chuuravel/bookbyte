@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class BookInfo(models.Model):
     title = models.CharField(max_length=100, null=False) #책제목
-    isbn = models.CharField(max_length=20, null=False) #국제표준도서번호(13자리)
+    isbn = models.CharField(max_length=20, null=False, unique=True) #국제표준도서번호(13자리)
     cover_image = models.CharField(max_length=2000, null=True) #책표지
     genre = models.CharField(max_length=20, null=True) #장르
     page = models.IntegerField(null=True) #쪽수
