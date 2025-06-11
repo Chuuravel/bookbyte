@@ -6,20 +6,54 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from book.forms import ReviewForm
 from book.models import Review
 import pandas as pd
-import joblib
-import random
-import requests
+from surprise import SVD, Dataset, Reader
+import pickle
 
 # Create your views here.
 def best_seller(request):
     # 모델이 학습한 베스트셀러를 반환 (추후 요수정) - 10개만 표시
     # 모델 테스트 start
-    book_predicted = load_model.book_predict(123)
-    print(book_predicted)
-    print("★★★")
+    df = pd.read_csv('./models_dl/book_data_250610.csv')
+    user_stats = df.groupby('user_id')['rating'].agg(['mean', 'std'])
+    
+    # 5점만 준 사람들은 제거(책을 평가할 때 성향(호불호)을 파악하기 어려움
+    biased_users = user_stats[(user_stats['std'] == 0) & (user_stats['mean'] == 5)].index
+    df_filtered = df[~df['user_id'].isin(biased_users)].copy()
+    
+    # 조국의 시간 제거(정치성향)
+    df_filtered =df_filtered[df_filtered["title"] != "조국의 시간"]
+    
+    # SVD start
+    # 평점이 1점부터 5점일것이다.
+    reader = Reader(rating_scale=(1, 5))
+    # 데이터프레임의 3가지 컬럼을 쓸것
+    data = Dataset.load_from_df(df_filtered[['user_id', 'isbn', 'rating']], reader)
+    
+    # 훈련데이터 make(가진 데이터를 모두 훈련데이터로 사용)
+    trainset = data.build_full_trainset()
+
+    # SVD모델make(학습)
+    model = SVD( 
+        n_epochs = 120,
+        lr_all = 0.001,
+        reg_all = 0.09,
+        n_factors = 100)
+    model.fit(trainset)
+    # SVD end
+
+    # 모델 저장 start
+    with open('./models_dl/svd_model', 'wb') as f:
+        pickle.dump(model, f)
+    # 모델 저장 end
+
+    # Book추천(모델, 전처리후df, 로그인유저, 추천개수)
+    recommended_isbns = load_model.recommend_top_n_isbn(model, df_filtered, request.user.username, 10)
+
     # 모델 테스트 end
 
-    all_book = BookInfo.objects.all()
+    # isbn으로 DB에서 책 조회
+    all_book = BookInfo.objects.filter(isbn__in = recommended_isbns)
+    print(all_book)
 
     # 페이징
     page = request.GET.get('page')
@@ -178,21 +212,21 @@ def show_review(request):
 
 # 예측모델
 class load_model():
-    def book_predict(test_user):
-        df = pd.read_csv("./models_dl/movies.csv")
-        algo = joblib.load('./models_dl/movie_algo.pkl')
-        user_rated_books = df[df['user'] == test_user]['item'].tolist() # 유저가 읽은 책
-        all_books = df['item'].unique()
-        user_unrated_books = [item for item in all_books if item not in user_rated_books] # 유저가 평가 하지 않은 책
+    def recommend_top_n_isbn(model, df_filtered, user_id, n):
+        # 이미 읽은 책
+        read_books = df_filtered[df_filtered['user_id'] == user_id]['isbn'].unique()
+        # 전체 책
+        all_books = df_filtered['isbn'].unique()
+        # 읽지 않은 책
+        unread_books = [isbn for isbn in all_books if isbn not in read_books]
+        # 읽지 않은 책의 isbn을 학습
+        preds = [model.predict(user_id, str(isbn)) for isbn in unread_books]
+        # 10개 추천
+        top_n = sorted(preds, key=lambda x: x.est, reverse=True)[:n]
+        # 뽑힌 isbn을 리스트로 반환
+        recommended_isbns = [pred.iid for pred in top_n]
 
-        predict = [ (item, algo.predict(test_user, item).est) for item in user_unrated_books ]
-        predict.sort(key=lambda x: x[1], reverse=True)
-
-        top_n = predict[:20]
-
-        top_random_rec = random.sample(top_n, 5)
-        
-        return top_random_rec
+        return recommended_isbns
 
 # 초기 로드
 class load_init():
