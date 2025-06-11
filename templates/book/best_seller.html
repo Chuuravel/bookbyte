@@ -11,7 +11,7 @@
             {% if book.cover_image %}
                 <a href="{% url 'book:detail' pk=book.id %}"><img src ="{{ book.cover_image }}" alt="표지정보가 없습니다" width="195px" height="345px"/></a>
             {% else %}
-                <img src="https://picsum.photos/seed/picsum/195/345" alt="기본 이미지">
+                <a href="{% url 'book:detail' pk=book.id %}"><img src="https://picsum.photos/seed/picsum/195/345" alt="기본 이미지"></a>
             {% endif %}
             책제목: 
             {{ book.title }}
