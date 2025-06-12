@@ -1,5 +1,12 @@
 /* 폰트적용 */
 
+/* 수평선 색 조정 */
+hr {
+    background: gray;
+    height:2px;
+    border:0;
+}
+
 /* book start */
 /* 헤더 간격 조정 */
 .header {
@@ -68,12 +75,27 @@ li {
 	font-size: 15px;
 }
 
-.content-content {
-	padding: 25px 0px;
+.content-parent {
+	padding: 25px;
+	text-align: center;
+	margin: 1px;
 }
 
+.content-child1 {
+	display: inline-block; /* 같은 라인에 배치 */
+}
 
+.content-child2 {
+	display: inline-block; /* 같은 라인에 배치 */
+}
 
+.content-child3 {
+	display: inline;
+}
+
+.content-child4 {
+	display: inline;
+}
 /* book end */
 
 /* user start */
