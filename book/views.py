@@ -97,7 +97,8 @@ def show_all_book(request):
     if not request.user.is_authenticated:
         return redirect("users:login")
     
-    all_book = BookInfo.objects.all()
+    # 제목순으로 정렬해서 전체 도서 목록을 DB에서 불러옴
+    all_book = BookInfo.objects.order_by("title")
     
     # 네이버API검색 start
     # client_id = "TuZ3bn4h5AnDRFjsVLld"

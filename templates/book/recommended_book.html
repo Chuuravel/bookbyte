@@ -25,6 +25,7 @@
                 <br/>
                 <a href="{% url 'book:create_review' pk=book.id %}">리뷰작성</a>
             </div>
+        <hr/>
         {% endfor %}
         <!-- 페이징 -->
         {% include 'book/_paging.html' %}
