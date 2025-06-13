@@ -8,6 +8,7 @@ from book.models import Review
 import pandas as pd
 from surprise import SVD, Dataset, Reader
 import pickle
+import random
 
 # Create your views here.
 def best_seller(request):
@@ -224,10 +225,11 @@ class load_model():
         preds = [model.predict(user_id, str(isbn)) for isbn in unread_books]
         # 10개 추천
         top_n = sorted(preds, key=lambda x: x.est, reverse=True)[:n]
-        # 뽑힌 isbn을 리스트로 반환
+        # 뽑힌 isbn을 랜덤 리스트로 반환
         recommended_isbns = [pred.iid for pred in top_n]
+        top_random_rec = random.sample(recommended_isbns, 5)
 
-        return recommended_isbns
+        return top_random_rec
 
 # 초기 로드
 class load_init():
