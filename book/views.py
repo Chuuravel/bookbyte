@@ -45,30 +45,33 @@ def recommended_book(request):
     df_filtered = df[~df['user_id'].isin(biased_users)].copy()
     
     # 조국의 시간 제거(정치성향)
-    df_filtered =df_filtered[df_filtered["title"] != "조국의 시간"]
+    # df_filtered =df_filtered[df_filtered["title"] != "조국의 시간"]
     
     # SVD start
     # 평점이 1점부터 5점일것이다.
-    reader = Reader(rating_scale=(1, 5))
+    # reader = Reader(rating_scale=(1, 5))
     # 데이터프레임의 3가지 컬럼을 쓸것
-    data = Dataset.load_from_df(df_filtered[['user_id', 'isbn', 'rating']], reader)
+    # data = Dataset.load_from_df(df_filtered[['user_id', 'isbn', 'rating']], reader)
     
     # 훈련데이터 make(가진 데이터를 모두 훈련데이터로 사용)
-    trainset = data.build_full_trainset()
+    # trainset = data.build_full_trainset()
 
     # SVD모델make(학습)
-    model = SVD( 
-        n_epochs = 120,
-        lr_all = 0.001,
-        reg_all = 0.09,
-        n_factors = 100)
-    model.fit(trainset)
+    # model = SVD( 
+    #     n_epochs = 120,
+    #     lr_all = 0.001,
+    #     reg_all = 0.09,
+    #     n_factors = 100)
+    # model.fit(trainset)
     # SVD end
 
     # 모델 저장 start
-    with open('./models_dl/svd_model', 'wb') as f:
-        pickle.dump(model, f)
-    # 모델 저장 end
+    # with open('./models_dl/svd_model', 'wb') as f:
+    #     pickle.dump(model, f)
+    # # 모델 저장 end
+
+    # 모델 불러오기
+    model = pickle.load(open('./models_dl/svd_model', 'rb'))
 
     # Book추천(모델, 전처리후df, 로그인유저, 추천개수)
     recommended_isbns = load_model.recommend_top_n_isbn(model, df_filtered, request.user.username, 10)
