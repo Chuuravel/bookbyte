@@ -6,7 +6,7 @@ charset-normalizer==3.4.2
 Django==5.2.1
 django-bootstrap4==25.1
 idna==3.10
-joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1748019130050/work
+# joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1748019130050/work
 numpy @ file:///D:/bld/numpy_1707225519803/work/dist/numpy-1.26.4-cp312-cp312-win_amd64.whl#sha256=ffaa9485afb654c70a658c3ad4b7d2e60c60d8450d3779408d3a496564dc1d43
 pandas==2.2.3
 pillow==11.2.1
