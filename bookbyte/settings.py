@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-0begcu%velu^8p!()1=9!n+2&5xoqzz+rbtmxag*v4si-ek1&k
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "52.63.112.223", "bookbyte.co.kr"]
+ALLOWED_HOSTS = ["127.0.0.1", "52.63.112.223", "bookbyte.co.kr", "www.bookbyte.co.kr", "m.bookbyte.co.kr"]
 
 
 # Application definition
